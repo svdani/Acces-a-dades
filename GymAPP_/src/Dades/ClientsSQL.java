@@ -332,7 +332,7 @@ public class ClientsSQL {
 			sentencia.close();
 			c.close();
 		} catch (Exception e) {
-
+			System.out.println("impossible");
 			Talal: 	System.out.println(e.getMessage());
 
 		}

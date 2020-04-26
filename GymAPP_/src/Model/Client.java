@@ -29,9 +29,10 @@ public class Client  {
 		this.password = password;
 	}
 	
-	public Client(String nom) {
-		this.nom = nom;
+	public Client(String dni) {
+		this.dni = dni;
 	}
+
 	
 	//--------------------GET & SET--------------------
 	

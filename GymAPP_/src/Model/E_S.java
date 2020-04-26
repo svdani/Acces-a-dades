@@ -30,6 +30,9 @@ public class E_S {
 		this.moviment = moviment;
 	}
 	
+	public E_S(String client) {
+		this.client = client;
+	}
 	
 	//--------------------GET & SET--------------------
 

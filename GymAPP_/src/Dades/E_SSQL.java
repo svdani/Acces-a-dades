@@ -201,7 +201,7 @@ public class E_SSQL {
 	}
 	
 	//Muestra Ultimo Registro E_S Cliente
-	public E_S consultaUltimMovimentClient(Client cli) throws SQLException {
+	public ArrayList<E_S> consultaUltimMovimentClient(Client cli) throws SQLException {
 
 		conectar();
 		E_S mov = null;
@@ -211,21 +211,22 @@ public class E_SSQL {
 		try {
 
 			ResultSet rs = sentencia.executeQuery(consultaSql);
-			
-					
+			while (rs.next()) {
+				
 				moviment = rs.getInt("Moviment");
 				client = rs.getString("Client");
 				gimnas = rs.getString("Gimnas");
 				data = rs.getString("Data");
 				tipus = rs.getString("Tipus");
 						
-				mov = new E_S(
+				//GUARDA EN ARRAY LIST CLIENT
+				moviments.add(new E_S(
 						moviment, 
 						client, 
 						gimnas,
 						data, 
-						tipus);
-			
+						tipus));
+			}
 
 			rs.close();
 			sentencia.close();
@@ -236,7 +237,7 @@ public class E_SSQL {
 			Talal: 	System.out.println(e.getMessage());
 
 		}
-		return mov;
+		return moviments;
 	}
 	
 };
