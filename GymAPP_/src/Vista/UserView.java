@@ -15,19 +15,23 @@ import Dades.ClientsSQL;
 import Dades.E_SSQL;
 import Model.Client;
 import Model.E_S;
+import javafx.scene.control.ComboBox;
 
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class UserView extends JDialog {
 	
 	private static DefaultTableModel model;
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-	
+	JComboBox comboBox = new JComboBox();
 	static Client cli;
 	static E_SSQL conE_S = new E_SSQL();
 	static ClientsSQL conCli = new ClientsSQL();
@@ -74,6 +78,7 @@ public class UserView extends JDialog {
 		
 		//TITULO
 		titelText();
+		eleccionGym();
 		//BOTONES
 		btnFichar();
 		btnPagar();
@@ -90,11 +95,28 @@ public class UserView extends JDialog {
 		
 		try {
 			
+			model.setRowCount(0);
+								
+			//----RELLENA TABLA
+			E_S e_s = new E_S(conE_S.consultaUltimMovimentClient(cli)); 
+			
+			model.addRow(new Object[] {
+					e_s.getData(),
+					e_s.getGimnas(),
+					e_s.getTipus()
+			});	
+						
+			
+		} catch (Exception e) {
+			
+		}
+		/*
+		 * 	try {
 			
 			model.setRowCount(0);
 								
 			//----RELLENA TABLA
-			for (E_S e_s:conE_S.consultaUltimMovimentClient(cli)) {
+			E_S e_s:conE_S.consultaUltimMovimentClient(cli)) {
 				model.addRow(new Object[] {
 					e_s.getData(),
 					e_s.getGimnas(),
@@ -105,7 +127,7 @@ public class UserView extends JDialog {
 		} catch (Exception e) {
 			
 		}
-		
+		 * */
 		
 	}//updateTable()--------	
 	
@@ -118,23 +140,54 @@ public class UserView extends JDialog {
 		contentPanel.add(lblUltimRegistre);
 	}
 	
+	
+	public void eleccionGym() {
+	
+		//CAJA DE ELECCION GIMNASIO
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"MacFit Olesa", "MacFit Abrera", "MacFit Manresa", "MacFit Castellet"}));
+		comboBox.setBounds(402, 29, 131, 25);
+		contentPanel.add(comboBox);
+	}
+	
 	//-------------------------------------------------------------BOTONES
 	
 	public void btnFichar() {
 		JButton btnFichar = new JButton("Fichar ");
 		btnFichar.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent arg0) {
+
+				E_S mov = new E_S(cli.getDni());
 				
 				try {
 					
+					E_S aux = conE_S.consultaUltimMovimentClient(cli);
 					
+
+					if(aux.getTipus().equals("S")) {
+						
+						mov = new E_S(cli.getDni(),comboBox.getSelectedItem().toString(),"E");
+			
+					} else if(aux.getTipus().equals("E")) {
+						
+						mov = new E_S(cli.getDni(),comboBox.getSelectedItem().toString(),"S");
+						
+					} else {
+						
+						mov = new E_S(cli.getDni(),comboBox.getSelectedItem().toString(),"E");
+						
+					}
+						
+					conE_S.insertaMoviment(mov);
+					UserView.updateTable();
 					
 				} catch (Exception e) {
 					System.out.println("Error al fichar ");
 				}
 			}
+			
 		});
-		btnFichar.setBounds(402, 43, 131, 25);
+		btnFichar.setBounds(402, 78, 131, 25);
 		contentPanel.add(btnFichar);
 	}
 	
@@ -158,8 +211,9 @@ public class UserView extends JDialog {
 		});
 		
 
-		btnPagar.setBounds(402, 89, 131, 25);
+		btnPagar.setBounds(402, 114, 131, 25);
 		contentPanel.add(btnPagar);
+		
 		}
 	
 	
@@ -176,12 +230,14 @@ public class UserView extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						System.exit(0);
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		
 	}
-	
-	
-	
 }

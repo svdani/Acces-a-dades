@@ -30,6 +30,14 @@ public class E_S {
 		this.moviment = moviment;
 	}
 	
+	public E_S(E_S  mov) {
+		this.moviment = mov.getMoviment();
+		this.client = mov.getClient();
+		this.gimnas = mov.getGimnas();
+		this.data = mov.getData(); 
+		this.tipus = mov.getTipus();
+	}
+	
 	public E_S(String client) {
 		this.client = client;
 	}
