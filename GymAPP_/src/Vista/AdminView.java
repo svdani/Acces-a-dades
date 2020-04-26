@@ -47,7 +47,7 @@ public class AdminView extends JDialog {
 
 	public AdminView() {
 		
-		setBounds(100, 100, 799, 542);
+		setBounds(100, 100, 814, 563);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -148,7 +148,7 @@ public class AdminView extends JDialog {
 		//Botones accion en tabla
 		
 		textField = new JTextField();
-		textField.setBounds(664, 46, 114, 19);
+		textField.setBounds(660, 50, 118, 15);
 		contentPanel.add(textField);
 		textField.setColumns(10);
 		

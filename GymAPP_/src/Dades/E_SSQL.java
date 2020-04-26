@@ -29,12 +29,12 @@ public class E_SSQL {
 		try {
 
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:/home/daniels/server/gym.db");
-			System.out.println("Exito al conectar con base de datos");
+			c = DriverManager.getConnection("jdbc:sqlite:servidor/gim.db");
+			System.out.println("Exito al conectar con base de datos E_S");
 
 		} catch (Exception e) {
 
-			System.out.println("Error al conectar con base de datos");
+			System.out.println("Error al conectar con base de datos E_S");
 
 		}
 		return c;
@@ -81,7 +81,8 @@ public class E_SSQL {
 								+ "', Gimnas='" + mov.getGimnas()
 								+ "', Data='" + mov.getData()
 								+ "', Tipus='" + mov.getTipus() 
-								+ "';";
+								+ "' WHERE moviment =" + mov.getMoviment()
+								+ ";";
 						
 			sentencia = c.createStatement();
 			sentencia.executeUpdate(sqlUpdate);

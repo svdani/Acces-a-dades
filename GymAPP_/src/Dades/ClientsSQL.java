@@ -34,12 +34,12 @@ public class ClientsSQL {
 		try {
 
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:/home/daniels/server/gym.db");
-			System.out.println("Exito al conectar con base de datos");
+			c = DriverManager.getConnection("jdbc:sqlite:servidor/gim.db");
+			System.out.println("Exito al conectar con base de datos Client");
 
 		} catch (Exception e) {
 
-			System.out.println("Error al conectar con base de datos");
+			System.out.println("Error al conectar con base de datos Client");
 
 		}
 		return c;
@@ -53,7 +53,7 @@ public class ClientsSQL {
 		try {
 			conectar();
 
-			String sqlInsert = "INSERT INTO Client (Dni, Password, Rol, Nom, Cognom, adresa, Telf, Correu, Deutor) "
+			String sqlInsert = "INSERT INTO Client (Dni, Password, Rol, Nom, Cognom, Adresa, Telf, Correu, Deutor) "
 
 		            	 + "VALUES (" + "\"" + cli.getDni() + "\"" + ","
 		            	 + "\"" + cli.getPassword() + "\"" + ","

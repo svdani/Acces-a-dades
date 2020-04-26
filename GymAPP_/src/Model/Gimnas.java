@@ -2,30 +2,30 @@ package Model;
 
 public class Gimnas  {
 
-	String gimnas;
+	String cif;
 	String nom;
 	String telf;
 	String adresa;
 	String correu;
 	
-	public Gimnas (String dni, String nom, String telf, String adresa, String correu) {
-		this.gimnas = dni;
+	public Gimnas (String cif, String nom, String telf, String adresa, String correu) {
+		this.cif = cif;
 		this.nom = nom;
 		this.telf = telf;
 		this.adresa = adresa;
 		this.correu = correu;
 	}
 	
-	public Gimnas(String dni) {
-		this.gimnas = dni;
+	public Gimnas(String cif) {
+		this.cif = cif;
 	}
 
-	public String getGimnas() {
-		return gimnas;
+	public String getCif() {
+		return cif;
 	}
 
-	public void setGimnas(String gimnas) {
-		this.gimnas = gimnas;
+	public void setCif(String cif) {
+		this.cif = cif;
 	}
 
 	public String getNom() {
@@ -59,4 +59,11 @@ public class Gimnas  {
 	public void setCorreu(String correu) {
 		this.correu = correu;
 	}
+
+	@Override
+	public String toString() {
+		return "\nGimnas [cif=" + cif + ", nom=" + nom + ", telf=" + telf + ", adresa=" + adresa + ", correu=" + correu
+				+ "]";
+	}
+	
 }

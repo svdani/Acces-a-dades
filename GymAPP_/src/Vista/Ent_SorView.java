@@ -52,7 +52,7 @@ public class Ent_SorView extends JDialog {
 
 
 	public Ent_SorView() {
-		setBounds(100, 100, 588, 406);
+		setBounds(100, 100, 625, 445);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
