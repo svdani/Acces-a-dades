@@ -9,7 +9,7 @@ public class E_S {
 	String gimnas;
 	String data;
 	String tipus;
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	public E_S(int moviment, String client, String gimnas, String data, String tipus) {
 		this.moviment = moviment;

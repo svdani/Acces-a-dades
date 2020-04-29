@@ -18,6 +18,8 @@ import Model.E_S;
 import javafx.scene.control.ComboBox;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -101,6 +103,7 @@ public class UserView extends JDialog {
 			E_S e_s = new E_S(conE_S.consultaUltimMovimentClient(cli)); 
 			
 			model.addRow(new Object[] {
+				
 					e_s.getData(),
 					e_s.getGimnas(),
 					e_s.getTipus()
@@ -110,24 +113,6 @@ public class UserView extends JDialog {
 		} catch (Exception e) {
 			
 		}
-		/*
-		 * 	try {
-			
-			model.setRowCount(0);
-								
-			//----RELLENA TABLA
-			E_S e_s:conE_S.consultaUltimMovimentClient(cli)) {
-				model.addRow(new Object[] {
-					e_s.getData(),
-					e_s.getGimnas(),
-					e_s.getTipus()
-				});	
-			}			
-			
-		} catch (Exception e) {
-			
-		}
-		 * */
 		
 	}//updateTable()--------	
 	
@@ -162,8 +147,10 @@ public class UserView extends JDialog {
 				try {
 					
 					E_S aux = conE_S.consultaUltimMovimentClient(cli);
-					
 
+					System.out.println("Mira si existe registro");
+					System.out.println();
+					
 					if(aux.getTipus().equals("S")) {
 						
 						mov = new E_S(cli.getDni(),comboBox.getSelectedItem().toString(),"E");
@@ -172,17 +159,27 @@ public class UserView extends JDialog {
 						
 						mov = new E_S(cli.getDni(),comboBox.getSelectedItem().toString(),"S");
 						
-					} else {
-						
-						mov = new E_S(cli.getDni(),comboBox.getSelectedItem().toString(),"E");
-						
-					}
+					} 
 						
 					conE_S.insertaMoviment(mov);
-					UserView.updateTable();
+					updateTable();
 					
 				} catch (Exception e) {
-					System.out.println("Error al fichar ");
+									
+					try {
+						
+						System.out.println("No existe");
+						mov = new E_S(cli.getDni(),comboBox.getSelectedItem().toString(),"E");
+						
+						conE_S.insertaMoviment(mov);
+						updateTable();
+						
+					} catch (SQLException e1) {
+						
+						System.out.println("Error al fichar ");
+						e1.printStackTrace();
+						
+					}				
 				}
 			}
 			
@@ -198,7 +195,7 @@ public class UserView extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					//Cambia estado deutor objeto
-					cli.setDeutor(0);
+					cli.setDeutor("false");
 					//Modfica la base de datos
 					conCli.modificaClients(cli);
 					
@@ -222,12 +219,25 @@ public class UserView extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			
 			{
 				JButton okButton = new JButton("Ver Registros");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						MovimentUser_View window  = new MovimentUser_View(cli);								
+													
+						window.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						window.setVisible(true);
+						dispose();
+					}
+				});
+				
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
+			
 			{
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
@@ -239,5 +249,6 @@ public class UserView extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		
-	}
+	}//panelInferior
+	
 }

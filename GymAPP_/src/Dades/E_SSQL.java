@@ -105,8 +105,8 @@ public class E_SSQL {
 
 			conectar();
 
-			String sqlDelete = "DELETE FROM E_S WHERE Moviment='" + mov.getMoviment() + "';";
-				
+			String sqlDelete = "DELETE FROM E_S WHERE Moviment= " + mov.getMoviment() + ";";
+			System.out.println(sqlDelete);	
 			sentencia = c.createStatement();
 			sentencia.executeUpdate(sqlDelete);
 			sentencia.close();
@@ -206,8 +206,8 @@ public class E_SSQL {
 		conectar();
 		E_S mov = null;
 		sentencia = c.createStatement();
-		String consultaSql = "SELECT * FROM E_S WHERE Client = '" + cli.getDni() + "' ORDER BY Data desc LIMIT 1;";
-		
+		String consultaSql = "SELECT * FROM E_S WHERE Client = '" + cli.getDni() + "' ORDER BY moviment desc LIMIT 1;";
+		System.out.println(consultaSql);
 		try {
 
 			ResultSet rs = sentencia.executeQuery(consultaSql);
@@ -239,16 +239,18 @@ public class E_SSQL {
 		}
 		return mov;
 	}
-	
-	/*
-	//Muestra Ultimo Registro E_S Cliente
-	public ArrayList<E_S> consultaUltimMovimentClient(Client cli) throws SQLException {
+
+	//Muestra Registro E_S Desde X Hasta Y
+	public ArrayList<E_S> consultaMovimentClientDesdeHasta(Client cli, String desde, String hasta) throws SQLException {
 
 		conectar();
-		E_S mov = null;
-		sentencia = c.createStatement();
-		String consultaSql = "SELECT * FROM E_S WHERE Client = '" + cli.getDni() + "' ORDER BY Data desc LIMIT 1;";
 		
+		ArrayList<E_S> moviments2 = new ArrayList<E_S>();
+		
+		sentencia = c.createStatement();
+		String consultaSql = "SELECT * FROM E_S WHERE Client = " + cli.getDni() + " AND Data BETWEEN '" + desde + "' AND '" + hasta + "';";
+		
+		//System.out.println(consultaSql);
 		try {
 
 			ResultSet rs = sentencia.executeQuery(consultaSql);
@@ -261,7 +263,7 @@ public class E_SSQL {
 				tipus = rs.getString("Tipus");
 						
 				//GUARDA EN ARRAY LIST CLIENT
-				moviments.add(new E_S(
+				moviments2.add(new E_S(
 						moviment, 
 						client, 
 						gimnas,
@@ -278,9 +280,79 @@ public class E_SSQL {
 			Talal: 	System.out.println(e.getMessage());
 
 		}
-		return moviments;
+		
+		return moviments2;
 	}
-	 * */
-	
-	
+	 
+	//Consulta los segudos entre 2 fechas
+	public int consultaTiempo( String desde, String hasta) throws SQLException {
+
+		conectar();
+		
+		int tiempo=0;
+		
+		sentencia = c.createStatement();
+		String consultaSql = "SELECT strftime ('%s', '" + hasta + "') - strftime ('%s', '" + desde + "');";
+		
+		System.out.println(consultaSql);
+		try {
+
+			ResultSet rs = sentencia.executeQuery(consultaSql);
+		
+			tiempo= rs.getInt(1);
+			System.out.println(tiempo);
+
+			rs.close();
+			sentencia.close();
+			c.close();
+
+		} catch (Exception e) {
+
+			Talal: 	System.out.println(e.getMessage());
+
+		}
+		return tiempo;
+	}
+	 
+	//Muestra Tabla E_S Cliente FILTRA  
+		public ArrayList<E_S> consultaMovimentClientGym(Client cli, String where, String variable) throws SQLException {
+
+			conectar();
+
+			sentencia = c.createStatement();
+			String consultaSql = "SELECT * FROM E_S WHERE Client = '" + cli.getDni() + "' AND  " + where + " = '" + variable +"' ORDER BY Data desc;";
+			System.out.println(consultaSql);
+			try {
+
+				ResultSet rs = sentencia.executeQuery(consultaSql);
+				while (rs.next()) {
+						
+					moviment = rs.getInt("Moviment");
+					client = rs.getString("Client");
+					gimnas = rs.getString("Gimnas");
+					data = rs.getString("Data");
+					tipus = rs.getString("Tipus");
+							
+					//GUARDA EN ARRAY LIST CLIENT
+					moviments.add(new E_S(
+							moviment, 
+							client, 
+							gimnas,
+							data, 
+							tipus));
+				}
+
+				rs.close();
+				sentencia.close();
+				c.close();
+
+			} catch (Exception e) {
+
+				Talal: 	System.out.println(e.getMessage());
+
+			}
+			return moviments;
+		}
+		
+		
 };

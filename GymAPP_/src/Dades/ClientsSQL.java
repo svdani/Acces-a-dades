@@ -24,7 +24,7 @@ public class ClientsSQL {
 	String adresa;
 	String telf;
 	String correu;
-	int deutor;	
+	String deutor;	
 
 	ArrayList<Client> clientes = new ArrayList<Client>();
 	
@@ -158,7 +158,7 @@ public class ClientsSQL {
 				adresa = rs.getString("adresa");
 				telf = rs.getString("Telf");
 				correu = rs.getString("Correu");
-				deutor = rs.getInt("Deutor");
+				deutor = rs.getString("Deutor");
 					
 				//GUARDA EN ARRAY LIST CLIENT
 				clientes.add(new Client(
@@ -209,7 +209,7 @@ public class ClientsSQL {
 				adresa = rs.getString("adresa");
 				telf = rs.getString("Telf");
 				correu = rs.getString("Correu");
-				deutor = rs.getInt("Deutor");
+				deutor = rs.getString("Deutor");
 					
 				//GUARDA EN ARRAY LIST CLIENT
 				clientes.add(new Client(
@@ -260,7 +260,7 @@ public class ClientsSQL {
 					adresa = rs.getString("adresa");
 					telf = rs.getString("Telf");
 					correu = rs.getString("Correu");
-					deutor = rs.getInt("Deutor");
+					deutor = rs.getString("Deutor");
 						
 					//GUARDA EN ARRAY LIST CLIENT
 					clientes.add(new Client(
@@ -311,7 +311,7 @@ public class ClientsSQL {
 				adresa = rs.getString("adresa");
 				telf = rs.getString("Telf");
 				correu = rs.getString("Correu");
-				deutor = rs.getInt("Deutor");
+				deutor = rs.getString("Deutor");
 					
 				//GUARDA EN ARRAY LIST CLIENT
 				 client = new Client(
@@ -339,55 +339,53 @@ public class ClientsSQL {
 		return client;
 	}
 		
-	//Busca Client	per Nom
-	public Client buscaNomClients(Client cli) throws SQLException {
+	//Busca Client	per dni pero por letras
+	public ArrayList<Client> buscaClients(Client cli) throws SQLException {
+		conectar();
 
-			conectar();
+		sentencia = c.createStatement();
+		String consultaSql = "SELECT * FROM Client WHERE Dni LIKE '%" + cli.getDni() + "%';";
+		//Client client = new Client(cli.getDni(),cli.getPassword());	
+		try {
 
-			sentencia = c.createStatement();
-			System.out.println("¬¬¬¬¬¬¬¬" + cli.getNom());
-			String consultaSql = "SELECT * FROM Client WHERE Nom LIKE '%" + cli.getNom() + "%';";
-			Client client = new Client(cli.getDni(),cli.getPassword());	
-			try {
+			ResultSet rs = sentencia.executeQuery(consultaSql);
 
-				ResultSet rs = sentencia.executeQuery(consultaSql);
-				//int i = 0;//-------------CONTADOR PARA LA MATRIZ
-				while (rs.next()) {
-						
-					dni = rs.getString("Dni");
-					password = rs.getString("Password");
-					rol = rs.getString("Rol");
-					nom = rs.getString("Nom");
-					cognom = rs.getString("Cognom");
-					adresa = rs.getString("adresa");
-					telf = rs.getString("Telf");
-					correu = rs.getString("Correu");
-					deutor = rs.getInt("Deutor");
-						
-					//GUARDA EN ARRAY LIST CLIENT
-					 client = new Client(
-							dni, 
-							password, 
-							rol,
-							nom, 
-							cognom, 
-							adresa, 
-							telf, 
-							correu, 
-							deutor);
-
-					//i++;//---------- AUMENTA CONTADOR
-				}
-
-				rs.close();
-				sentencia.close();
-				c.close();
-			} catch (Exception e) {
-
-				Talal: 	System.out.println(e.getMessage());
-
+			while (rs.next()) {
+					
+				dni = rs.getString("Dni");
+				password = rs.getString("Password");
+				rol = rs.getString("Rol");
+				nom = rs.getString("Nom");
+				cognom = rs.getString("Cognom");
+				adresa = rs.getString("adresa");
+				telf = rs.getString("Telf");
+				correu = rs.getString("Correu");
+				deutor = rs.getString("Deutor");
+					
+				//GUARDA EN ARRAY LIST CLIENT
+				clientes.add(new Client(
+						dni, 
+						password, 
+						rol,
+						nom, 
+						cognom, 
+						adresa, 
+						telf, 
+						correu, 
+						deutor));
+				
 			}
-			return client;
+
+			rs.close();
+			sentencia.close();
+			c.close();
+			
+		} catch (Exception e) {
+			System.out.println("fALLO AL BUSCAR ");
+			Talal: 	System.out.println(e.getMessage());
+
 		}
+		return clientes;
+	}
 		
 };

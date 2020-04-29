@@ -23,18 +23,6 @@ public class LoginView extends JDialog {
 	private JTextField textUser;
 	private JPasswordField passwordField;
 	ClientsSQL conector = new ClientsSQL();
-	
-	/* Main
-	public static void main(String[] args) {
-		try {
-			LoginView dialog = new LoginView();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	 */
 
 	public LoginView() {
 		setBounds(100, 100, 304, 164);
@@ -73,18 +61,14 @@ public class LoginView extends JDialog {
 					
 					public void actionPerformed(ActionEvent e) {
 						try {
-							System.out.println("1 " + textUser.getText().toString());
-							System.out.println("2 " + passwordField.getText().toString());
 							
 							Client cli = new Client(textUser.getText().toString());
-							System.out.println(cli);
+
 							cli = conector.buscaDniClients(cli);
-							System.out.println(cli);
 							
-							if(cli.getPassword().equals(passwordField.getText().toString())) {
-								System.out.println("entra");
+							if(cli.getPassword().equals(passwordField.getText().toString())) {// COMPRUEVA EN LA BASE DE DATOS QUE EL USUARIO Y CONTRASEÑA INTRODUCIDOS COINCIDAN								
 								
-								if(cli.getRol().equals("A")) {
+								if(cli.getRol().equals("A")) {//CUANDO EL USUARIO ES ADMINISATRADOR
 									
 									System.out.println("Bienvenido Admin");
 									
@@ -94,7 +78,7 @@ public class LoginView extends JDialog {
 									windowClient.setVisible(true);
 									dispose();
 									
-								} else if(cli.getRol().equals("U")) {
+								} else if(cli.getRol().equals("U")) {//CUANDO EL USUARIO ES CLIENTE
 									
 									System.out.println("Bienvenido usuario");
 									
@@ -118,6 +102,7 @@ public class LoginView extends JDialog {
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
+			
 			{//BOTON CANCELAR
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {

@@ -10,9 +10,9 @@ public class Client  {
 	String adresa;
 	String telf;
 	String correu;
-	int deutor;	
+	String deutor;	
 	
-	public Client (String dni, String password, String rol, String nom,	String cognom, String adresa, String telf, String correu, int deutor	) {
+	public Client (String dni, String password, String rol, String nom,	String cognom, String adresa, String telf, String correu, String deutor	) {
 		this.dni = dni;
 		this.password = password;
 		this.rol = rol;
@@ -100,11 +100,11 @@ public class Client  {
 		this.correu = correu;
 	}
 
-	public int getDeutor() {
+	public String getDeutor() {
 		return deutor;
 	}
 
-	public void setDeutor(int deutor) {
+	public void setDeutor(String deutor) {
 		this.deutor = deutor;
 	}
 

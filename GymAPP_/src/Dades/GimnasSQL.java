@@ -106,7 +106,7 @@ public class GimnasSQL {
 			conectar();
 
 			String sqlDelete = "DELETE FROM Gimnas WHERE cif='" + gim.getCif() + "';";
-				
+			System.out.println(sqlDelete);
 			sentencia = c.createStatement();
 			sentencia.executeUpdate(sqlDelete);
 			sentencia.close();
@@ -159,87 +159,5 @@ public class GimnasSQL {
 		}
 		return moviments;
 	}
-	
-	//Muestra Tabla Gimnas
-	/*
-	public ArrayList<Gimnas> consultaMovimentClient(Client cli) throws SQLException {
 
-		conectar();
-
-		sentencia = c.createStatement();
-		String consultaSql = "SELECT * FROM E_S WHERE Client = '" + cli.getDni() + "' ORDER BY Data desc;";
-		
-		try {
-
-			ResultSet rs = sentencia.executeQuery(consultaSql);
-			while (rs.next()) {
-					
-				cif = rs.getInt("Moviment");
-				nom = rs.getString("Client");
-				telf = rs.getString("Gimnas");
-				data = rs.getString("Data");
-				correu = rs.getString("Tipus");
-						
-				//GUARDA EN ARRAY LIST CLIENT
-				moviments.add(new Gimnas(
-						cif, 
-						nom, 
-						telf,
-						data, 
-						correu));
-			}
-
-			rs.close();
-			sentencia.close();
-			c.close();
-
-		} catch (Exception e) {
-
-			Talal: 	System.out.println(e.getMessage());
-
-		}
-		return moviments;
-	}
-	*/
-	
-	//Muestra Ultimo Registro E_S Cliente
-	/*
-	public Gimnas consultaUltimMovimentClient(Client cli) throws SQLException {
-
-		conectar();
-		Gimnas mov = null;
-		sentencia = c.createStatement();
-		String consultaSql = "SELECT * FROM E_S WHERE Client = '" + cli.getDni() + "' ORDER BY Data desc LIMIT 1;";
-		
-		try {
-
-			ResultSet rs = sentencia.executeQuery(consultaSql);
-			
-					
-				cif = rs.getInt("Moviment");
-				nom = rs.getString("Client");
-				telf = rs.getString("Gimnas");
-				data = rs.getString("Data");
-				correu = rs.getString("Tipus");
-						
-				mov = new Gimnas(
-						cif, 
-						nom, 
-						telf,
-						data, 
-						correu);
-			
-
-			rs.close();
-			sentencia.close();
-			c.close();
-
-		} catch (Exception e) {
-
-			Talal: 	System.out.println(e.getMessage());
-
-		}
-		return mov;
-	}
-	*/
 };
